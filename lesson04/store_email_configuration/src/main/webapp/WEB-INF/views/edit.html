@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="/layout::head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Update Email Configuration</h1>
+<form th:action="@{/app/save}" method="post" novalidate="novalidate" th:object="${emailConfig}">
+    <table>
+        <tr>
+            <td>Languages:</td>
+            <td>
+                <label>
+                    <select th:field="*{language}">
+                        <option th:value="English" th:text="English" selected></option>
+                        <option th:value="Vietnamese" th:text="Vietnamese"></option>
+                        <option th:value="Japanese" th:text="Japanese"></option>
+                        <option th:value="Chinese" th:text="Chinese"></option>
+                    </select>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Page Size:</td>
+            <td>Show
+                <label>
+                    <select th:field="*{pageSize}">
+<!--                        <option th:value="*{pageSize}" th:text="*{pageSize}" selected></option>-->
+                        <option th:value="5" th:text="5" ></option>
+                        <option th:value="10" th:text="10"></option>
+                        <option th:value="15" th:text="15" selected></option>
+                        <option th:value="25" th:text="25"></option>
+                        <option th:value="50" th:text="50"></option>
+                        <option th:value="100" th:text="100"></option>
+                    </select>
+                </label> emails per page
+            </td>
+        </tr>
+        <tr>
+            <td>Spams filter: </td>
+            <td>
+                <label>
+                    <input type="checkbox" th:field="*{spamFilter}"
+                           th:checked="${emailConfig.isSpamFilter()}"> Enable spams filter
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Signature: </td>
+            <td>
+                <textarea style="width: 400px;height: 150px" th:field="*{signature}" th:text="*{signature}"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <button>Update</button>
+                <a th:href="@{/app}">Cancel</a>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

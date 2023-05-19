@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="/layout::head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Settings</h1>
+<p th:text="${success}"></p>
+<table class="table table-striped primary" th:object="${emailConfig}">
+    <tr>
+        <td>Languages</td>
+        <td th:field="*{language}" th:text="*{language}"></td>
+    </tr>
+    <tr>
+        <td>Page Size:</td>
+        <td th:field="*{pageSize}" th:text="*{pageSize}"></td>
+    </tr>
+    <tr>
+        <td>Spams filter: </td>
+        <td>
+            <label>
+                <input type="checkbox" th:field="*{spamFilter}" th:checked="${emailConfig.isSpamFilter()}" disabled>
+            </label>
+            Enable spams filter
+        </td>
+    </tr>
+    <tr>
+        <td>Signature: </td>
+        <td>
+            <pre th:text="*{signature}"></pre>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <button><a th:href="@{/app/edit}" style="color: black">Edit email configuration</a></button>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

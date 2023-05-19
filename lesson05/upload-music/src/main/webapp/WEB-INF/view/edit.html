@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="/layout::head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header th:replace="/layout::header"></header>
+<h3>Edit Music</h3>
+<p>
+    <a th:href="@{/music}">
+        Back to music list
+    </a>
+</p>
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+<div>
+    <form th:action="@{/music/edit-music}" th:object="${musicForm}"
+          method="POST" novalidate="novalidate" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}"/>
+        <div>
+            <label>Name</label>
+            <input type="text" th:field="*{name}"/>
+        </div>
+        <div>
+            <label>Singer</label>
+            <input type="text" th:field="*{singer}"/>
+        </div>
+        <div>
+            <label>Type of music</label>
+            <th:block th:each="element : ${typeMusic}">
+                <label>
+                    <input type="checkbox" th:value="${element}" th:text="${element}" th:field="*{type}" onchange="handleCheckbox(this)" >
+                </label>
+            </th:block>
+        </div>
+        <div>
+            <label>Audio</label>
+            <input type="file" th:field="*{musicFile}" accept="audio/ogg, audio/mp3, audio/m4p, audio/wav" required>
+            <input hidden="hidden" id="fileName" th:value="${musicForm.musicFile.originalFilename}">
+            <input hidden="hidden" id="blob" th:value="${musicForm.musicFile.bytes}">
+            <input hidden="hidden" id="contentType" th:value="${musicForm.musicFile.contentType}">
+        </div>
+        <input type="submit" value="Save"/>
+    </form>
+</div>
+</body>
+<script th:inline="javascript">
+    var musicTypes = [[${musicForm.type.split(',')}]];
+
+    function handleCheckbox(checkbox) {
+        var value = checkbox.value;
+        if (checkbox.checked) {
+            if (!musicTypes.includes(value)) {
+                musicTypes.push(value);
+            }
+        } else {
+            var index = musicTypes.indexOf(value);
+            if (index !== -1) {
+                musicTypes.splice(index, 1);
+            }
+        }
+        document.getElementById('musicType').value = musicTypes.join(',');
+    }
+
+    // Set the initial state of checkboxes based on music types
+    window.addEventListener('DOMContentLoaded', function() {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(function(checkbox) {
+            if (musicTypes.includes(checkbox.value)) {
+                checkbox.checked = true;
+            }
+        });
+    });
+    function getFile() {
+        //https://stackoverflow.com/questions/1696877/how-to-set-a-value-to-a-file-input-in-html
+        // Get a reference to our file input
+        const fileInput = document.querySelector("#musicFile");
+        const blob = document.querySelector("#blob").value;
+        const fileName = document.querySelector("#fileName").value;
+        const contentType = document.querySelector("#contentType").value;
+        // Create a new File object
+        const myFile = new File(
+            [blob],
+            fileName,
+            {
+                type: contentType,
+                lastModified: new Date(),
+            }
+        );
+        // Now let's create a DataTransfer to get a FileList
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(myFile);
+        fileInput.files = dataTransfer.files;
+    }
+    document.onload = getFile();
+</script>
+<footer th:replace="/layout::foot"></footer>
+</html>

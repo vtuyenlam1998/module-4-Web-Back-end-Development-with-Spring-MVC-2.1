@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head th:replace="/layout :: head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header th:replace="/layout::header"></header>
+<a th:href="@{/music/create}">Add new music</a>
+<table class="table table-hover">
+    <thread>
+        <tr class="table-dark">
+            <th>ID</th>
+            <th>Name</th>
+            <th>Singer</th>
+            <th>Type</th>
+            <th></th>
+        </tr>
+    </thread>
+    <tbody>
+    <tr class="table-success" th:each="music : ${musics}">
+        <td th:text="${music.id}"></td>
+        <td th:text="${music.name}"></td>
+        <td th:text="${music.singer}"></td>
+        <td th:text="${music.type}"></td>
+        <td>
+            <audio controls>
+                <source th:src="@{'/music/' + ${music.musicFile}}" type="audio/mpeg">
+            </audio>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+<footer th:replace="/layout::foot"></footer>
+</html>

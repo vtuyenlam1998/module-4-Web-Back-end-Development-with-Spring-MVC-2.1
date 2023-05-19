@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="/layout :: head">
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<header th:replace="/layout::header"></header>
+<h3>Add Music</h3>
+<p>
+  <a th:href="@{/music}">
+    Back to music list
+  </a>
+</p>
+<th:block th:if="${message}">
+  <p th:text="${message}"></p>
+</th:block>
+<div>
+  <form th:action="@{/music/save}" th:object="${musicForm}"
+        method="POST" novalidate="novalidate" enctype="multipart/form-data">
+    <input type="hidden" th:field="*{id}"/>
+    <div>
+      <label>Name</label>
+      <input type="text" th:field="*{name}"/>
+    </div>
+    <div>
+      <label>Singer</label>
+      <input type="text" th:field="*{singer}"/>
+    </div>
+    <div>
+      <label>Type of music</label>
+      <th:block th:each="type : ${typeMusic}">
+        <input type="checkbox" th:value="${type}" th:text="${type}" th:field="*{type}">
+      </th:block>
+      <!--            <input type="checkbox" th:field="*{type}"/>-->
+    </div>
+    <div>
+      <label>Audio</label>
+      <input type="file" th:field="*{musicFile}"/>
+    </div>
+    <input type="submit" value="Save"/>
+  </form>
+</div>
+</body>
+<footer th:replace="/layout::foot"></footer>
+</html>
