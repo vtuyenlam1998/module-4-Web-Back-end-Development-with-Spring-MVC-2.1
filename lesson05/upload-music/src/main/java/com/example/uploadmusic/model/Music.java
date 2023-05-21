@@ -12,8 +12,8 @@ public class Music {
     private String singer;
     private String type;
     private String musicFile;
-    @Column(name = "is_active")
-    private boolean isActive;
+//    @Column(name = "is_active")
+//    private boolean isActive;
 
     public Music() {
     }
