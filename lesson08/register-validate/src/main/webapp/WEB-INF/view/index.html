@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Danh sách các thành viên</h1>
+<button><a th:href="@{/create}">Đăng ký thành viên tại đây</a></button>
+    <span th:if="${message}" th:text="${message}"></span>
+<br>
+<th:block th:each="user: ${users}">
+  <span th:text="${user.id}"></span><br>
+  <span th:text="${user.firstName}"></span><br>
+  <span th:text="${user.lastName}"></span><br>
+  <span th:text="${user.phoneNumber}"></span><br>
+  <span th:text="${user.email}"></span><br>
+  <span th:text="${user.age}"></span><br>
+</th:block>
+</body>
+</html>

@@ -7,9 +7,11 @@ import java.util.List;
 public interface CommentService {
     List<Comment> findAll();
 
-    Comment findByIdMusic(Long id) throws Exception;
+    Comment findByIdComment(Long id) throws Exception;
 
     void save(Comment comment);
 
-    Comment remove(Long id);
+    void remove(Long id);
+
+    void setLike(Long id) throws Exception;
 }

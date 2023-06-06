@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -43,23 +44,26 @@ public class UploadMusicController {
     private String fileUpload;
 
     @PostMapping("/save")
-    public ModelAndView saveMusic(@ModelAttribute MusicForm musicForm) {
-        musicService.save(musicForm);
+    public ModelAndView saveMusic(@ModelAttribute MusicForm musicForm) throws IOException {
+        boolean isSaveSuccessfully = musicService.save(musicForm);
         ModelAndView modelAndView = new ModelAndView("/create");
         modelAndView.addObject("musicForm", new MusicForm());
         modelAndView.addObject("typeMusic", Arrays.stream(TypeMusic.values()).toArray());
-
-        modelAndView.addObject("message", "Created new music successfully");
+        if (isSaveSuccessfully) {
+            modelAndView.addObject("message", "Created new music successfully");
+        } else modelAndView.addObject("message", "Type of file is invalid! Types of file are valid : .mp3, .wav, .ogg, .m4p");
         return modelAndView;
     }
 
     @PostMapping(value = "/edit-music")
-    public ModelAndView editMusic(@ModelAttribute MusicForm musicForm) {
-        musicService.save(musicForm);
+    public ModelAndView editMusic(@ModelAttribute MusicForm musicForm) throws IOException {
+        boolean isSaveSuccessfully = musicService.save(musicForm);
         ModelAndView modelAndView = new ModelAndView("/edit");
         modelAndView.addObject("musicForm", musicForm);
         modelAndView.addObject("typeMusic", Arrays.stream(TypeMusic.values()).toArray());
-        modelAndView.addObject("message", "Edited music successfully");
+        if (isSaveSuccessfully) {
+            modelAndView.addObject("message", "Edited music successfully");
+        } else modelAndView.addObject("message", "Edited music fail");
         return modelAndView;
     }
 

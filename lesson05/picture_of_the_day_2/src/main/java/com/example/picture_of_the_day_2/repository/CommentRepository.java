@@ -17,11 +17,11 @@ public interface CommentRepository {
     Comment findById(Long id);
 
     void save(Comment comment);
-    Comment delete(Long id);
-    @Modifying
-    @Query("UPDATE Comment c SET c.isActive = false where c.id=:id")
-    Comment softDeleteJPQL(@Param("id") Long id);
-
-    @Query("select c from Comment c where c.isActive = true")
-    List<Comment> findAllByIsActiveIsTrue();
+    void delete(Long id);
+//    @Modifying
+//    @Query("UPDATE Comment c SET c.isActive = false where c.id=:id")
+//    Comment softDeleteJPQL(@Param("id") Long id);
+//
+//    @Query("select c from Comment c where c.isActive = true")
+//    List<Comment> findAllByIsActiveIsTrue();
 }

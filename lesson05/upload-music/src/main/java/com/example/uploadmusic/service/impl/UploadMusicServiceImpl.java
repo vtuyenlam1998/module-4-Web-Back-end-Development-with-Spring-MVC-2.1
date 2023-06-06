@@ -15,10 +15,15 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+
 
 @Service
 public class UploadMusicServiceImpl implements UploadMusicService {
+    private static final Set<String> fileTypes = new HashSet<>(Arrays.asList(".mp3", ".m4p", ".ogg", ".wav"));
+
     @Value("${file-upload}")
     private String fileUpload;
     @Autowired
@@ -41,7 +46,7 @@ public class UploadMusicServiceImpl implements UploadMusicService {
             musicForm.setSinger(music.getSinger());
             musicForm.setType(music.getType());
             //https://stackoverflow.com/questions/16648549/converting-file-to-multipartfile
-            byte[] content = IOUtils.toByteArray(new FileInputStream(fileUpload + music.getMusicFile()));
+            byte[] content = IOUtils.toByteArray(Files.newInputStream(Paths.get(fileUpload + music.getMusicFile())));
             MultipartFile multipartFile = new MockMultipartFile(
                     music.getMusicFile(), music.getMusicFile(), "audio/mp3", content);
             musicForm.setMusicFile(multipartFile);
@@ -50,16 +55,23 @@ public class UploadMusicServiceImpl implements UploadMusicService {
     }
 
     @Override
-    public void save(MusicForm musicForm) {
+    public boolean save(MusicForm musicForm) throws IOException {
         MultipartFile multipartFile = musicForm.getMusicFile();
         String fileName = multipartFile.getOriginalFilename();
-        try {
+        assert fileName != null;
+        if (isValidFile(fileName)) {
             FileCopyUtils.copy(musicForm.getMusicFile().getBytes(), new File(fileUpload + fileName));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            Music music = new Music(musicForm.getId(), musicForm.getName(), musicForm.getSinger(), musicForm.getType(), fileName);
+            uploadMusicRepository.save(music);
+            return true;
         }
-        Music music = new Music(musicForm.getId(), musicForm.getName(), musicForm.getSinger(), musicForm.getType(), fileName);
-        uploadMusicRepository.save(music);
+        return false;
+    }
+
+    private boolean isValidFile(String fileName) {
+        int indexOfFileType = fileName.lastIndexOf(".");
+        String fileType = fileName.substring(indexOfFileType);
+        return fileTypes.contains(fileType);
     }
 
     @Override

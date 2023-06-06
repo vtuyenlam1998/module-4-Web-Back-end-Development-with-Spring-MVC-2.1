@@ -18,14 +18,10 @@ public class CommentRepositoryImpl implements CommentRepository {
     @PersistenceContext
     private EntityManager em;
 
-//    @Override
-//    public List<Comment> findAll() {
-//        TypedQuery<Comment> query = em.createQuery("select c from Comment c",Comment.class);
-//        return query.getResultList();
-//    }
     @Override
     public List<Comment> findAll() {
-        return findAllByIsActiveIsTrue();
+        TypedQuery<Comment> query = em.createQuery("select c from Comment c where c.isActive = true", Comment.class);
+        return query.getResultList();
     }
 
     @Override
@@ -42,16 +38,6 @@ public class CommentRepositoryImpl implements CommentRepository {
 
 
     @Override
-    public Comment softDeleteJPQL(Long id) {
-        return null;
-    }
-
-    @Override
-    public List<Comment> findAllByIsActiveIsTrue() {
-        return null;
-    }
-
-    @Override
     public void save(Comment comment) {
         if (comment.getId() != null) {
             em.merge(comment);
@@ -61,7 +47,8 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public Comment delete(Long id) {
-        return softDeleteJPQL(id);
+    public void delete(Long id) {
+        em.createQuery("UPDATE Comment c SET c.isActive = false where c.id=:id", Comment.class).setParameter("id", id);
     }
+
 }

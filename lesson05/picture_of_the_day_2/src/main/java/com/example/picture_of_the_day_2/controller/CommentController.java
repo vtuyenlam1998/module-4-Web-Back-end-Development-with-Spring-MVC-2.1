@@ -6,6 +6,7 @@ import com.example.picture_of_the_day_2.service.CommentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -30,6 +31,12 @@ public class CommentController {
     @PostMapping("/save")
     public String createComment(Comment comment) {
         commentService.save(comment);
+        return "redirect:/";
+    }
+
+    @GetMapping("/like/{id}")
+    public String like(@PathVariable Long id) throws Exception {
+        commentService.setLike(id);
         return "redirect:/";
     }
 }

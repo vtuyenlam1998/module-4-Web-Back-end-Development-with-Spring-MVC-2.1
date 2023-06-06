@@ -11,19 +11,25 @@
         <input type="hidden" th:field="*{id}">
         <table class="table table-striped table-hover">
             <tr>
-                <td colspan="2"><img id="img-of-the-day" alt="nasa picture"></td>
+                <td colspan="2"><img src="" id="img-of-the-day" alt="nasa picture"></td>
             </tr>
             <tr>
                 <td><label>Rate:</label></td>
-                <td><input type="number" min="1" max="5" th:field="*{rate}" ></td>
+                <td><label>
+                    <input type="number" min="1" max="5" th:field="*{rate}" required>
+                </label></td>
             </tr>
             <tr>
                 <td><label>Author:</label></td>
-                <td><input type="text"  th:field="*{author}"></td>
+                <td><label>
+                    <input type="text"  th:field="*{author}" required>
+                </label></td>
             </tr>
             <tr>
                 <td><label>Feedback:</label></td>
-                <td><textarea rows="4" cols="50" th:field="*{feedback}"></textarea></td>
+                <td><label>
+                    <textarea rows="4" cols="50" th:field="*{feedback}" required></textarea>
+                </label></td>
             </tr>
             <tr>
                 <td></td>
@@ -31,12 +37,19 @@
             </tr>
         </table>
     </form>
-    <div th:each="comment : ${comments}">
-        <hr>
-        <span th:text="${comment.author}"></span>
-        <span th:text="${comment.rate}"></span>
-        <span th:text="${comment.feedback}"></span>
-    </div>
+    <hr>
+    <h3>Comments</h3>
+    <table class="table table-striped table-hover table-bordered border-primary">
+        <tr th:each="comment : ${comments}">
+            <th th:text="${comment.author}" scope="row"></th>
+            <td th:text="${comment.rate} + ' sao'"></td>
+            <td th:text="${comment.feedback} + ' ' + ${comment.likes} + ' likes'"></td>
+            <td th:text="${comment.getDateTime()}"></td>
+            <td>
+                <button><a th:href="@{/like/{id} (id=${comment.id})}">Like</a></button>
+            </td>
+        </tr>
+    </table>
 </div>
 <script>
     let query = 'https://api.nasa.gov/planetary/apod?api_key=mbZqNcpCchPHETzqPx6f90WNAR8VPUK6GlM0a3Og';

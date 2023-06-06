@@ -10,29 +10,38 @@ public class Comment {
     private Long id;
     private int rate;
     private String author;
+    @Column(length = 1000)
     private String feedback;
     private LocalDateTime dateTime;
-    private Long like;
+    private Long likes;
     @Column(name = "is_active")
     private boolean isActive = true;
 
     public Comment() {
     }
-    public Comment(Long id, int rate, String author, String feedback, LocalDateTime dateTime, Long like) {
+    public Comment(Long id, int rate, String author, String feedback, LocalDateTime dateTime, Long likes) {
         this.id = id;
         this.rate = rate;
         this.author = author;
         this.feedback = feedback;
         this.dateTime = dateTime;
-        this.like = like;
+        this.likes = likes;
     }
 
-    public Comment(int rate, String author, String feedback, LocalDateTime dateTime, Long like) {
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public Comment(int rate, String author, String feedback, LocalDateTime dateTime, Long likes) {
         this.rate = rate;
         this.author = author;
         this.feedback = feedback;
         this.dateTime = dateTime;
-        this.like = like;
+        this.likes = likes;
     }
 
     public Long getId() {
@@ -75,11 +84,11 @@ public class Comment {
         this.dateTime = dateTime;
     }
 
-    public Long getLike() {
-        return like;
+    public Long getLikes() {
+        return likes;
     }
 
-    public void setLike(Long like) {
-        this.like = like;
+    public void setLikes(Long like) {
+        this.likes = like;
     }
 }

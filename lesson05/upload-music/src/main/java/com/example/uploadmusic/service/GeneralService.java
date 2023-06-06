@@ -4,6 +4,7 @@ import com.example.uploadmusic.model.MusicForm;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 public interface GeneralService<T> {
@@ -11,7 +12,7 @@ public interface GeneralService<T> {
 
     MusicForm findByIdMusic(Long id) throws Exception;
 
-    void save(MusicForm musicForm);
+    boolean save(MusicForm musicForm) throws IOException;
 
     void remove(Long id);
 }
