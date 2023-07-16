@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="/product/home::head">
     <meta charset="UTF-8">
     <title>Create customer</title>
 </head>
 <body>
+<header th:replace="/product/home::header"></header>
 <h1>Create product</h1>
 <p>
     <a href="/">Product list</a>
@@ -12,23 +13,24 @@
 <th:block th:if="${message}">
     <p th:text="${message}"></p>
 </th:block>
-<form th:action="@{/create-product}" id="add-product" th:object="${product}" method="POST" novalidate="novalidate"  enctype="multipart/form-data">
+<form th:action="@{/product/create-product}" id="add-product" th:object="${product}" method="POST" novalidate="novalidate"  enctype="multipart/form-data">
     <table>
         <tr>
             <input type="hidden" th:field="*{id}"/>
             <td><label for="name">Name</label></td>
             <td><input type="text" id="name" placeholder="name" th:field="*{name}" required></td>
+            <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red">Username Error</td>
         </tr>
         <tr>
             <td><label for="image">Image</label></td>
-            <td><input type="file" id="image" placeholder="image" th:field="*{image}"></td>
+            <td><input type="file" id="image" placeholder="image" th:field="*{image}" required></td>
         </tr>
 
         <tr>
             <td><label for="category">Category</label></td>
             <td>
                 <label>
-                    <select th:field="*{category}">
+                    <select th:field="*{category}" required>
                         <option th:each="category:${categories}" th:value="${category.id}" th:text="${category.name}" id="category"></option>
                     </select>
                 </label>
@@ -43,6 +45,7 @@
         <tr>
             <td><label for="detail">Detail</label></td>
             <td><textarea rows="4" cols="50" id="detail" placeholder="detail" th:field="*{detail}"></textarea></td>
+            <td th:if="${#fields.hasErrors('detail')}" th:errors="*{detail}" style="color: red">Username Error</td>
         </tr>
 
 <!--        <tr>-->
@@ -64,4 +67,5 @@
     </table>
 </form>
 </body>
+<footer th:replace="/product/home::footer"></footer>
 </html>

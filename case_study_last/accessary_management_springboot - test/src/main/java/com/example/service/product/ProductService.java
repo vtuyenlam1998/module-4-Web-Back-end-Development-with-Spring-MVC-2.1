@@ -1,8 +1,8 @@
 package com.example.service.product;
 
+import com.example.model.Product;
 import com.example.payload.product.ProductAddDto;
 import com.example.payload.product.ProductListDto;
-import com.example.model.Product;
 import com.example.service.IGeneralService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,4 +33,7 @@ public interface ProductService extends IGeneralService<Product> {
 
     Page<ProductListDto> findAllProductDto(Pageable pageInfo);
 
+    Product saveProduct(Product product);
+
+    Optional<ProductAddDto> findProductAddDtoById(Long id) throws Exception;
 }

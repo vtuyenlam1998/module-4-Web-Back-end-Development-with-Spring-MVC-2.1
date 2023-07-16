@@ -9,16 +9,18 @@ import com.example.service.category.CategoryService;
 import com.example.service.product.ProductService;
 import com.example.service.variant.VariantService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -30,9 +32,6 @@ public class ProductController {
     private CategoryService categoryService;
     @Autowired
     private VariantService variantService;
-
-    @Value("${upload.path}")
-    private String fileUpload;
 
     @ModelAttribute("categories")
     public Iterable<Category> categories() {
@@ -52,7 +51,7 @@ public class ProductController {
         return productService.search(s.get(), pageInfo);
     }
 
-    @GetMapping()
+    @GetMapping({"","/home"})
     public ModelAndView home(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
                              @RequestParam(name = "size", required = false, defaultValue = "3") Integer size,
                              @RequestParam(name = "sort", required = false, defaultValue = "name: ASC") String sort,
@@ -73,8 +72,7 @@ public class ProductController {
         } else {
             productListDtos = productService.findAllProductDto(pageable);
         }
-//        List<ProductListDto> products = productService.getAll();
-        ModelAndView modelAttribute = new ModelAndView("admin/datatable");
+        ModelAndView modelAttribute = new ModelAndView("home/datatable");
         modelAttribute.addObject("products", productListDtos);
         modelAttribute.addObject("product", new ProductAddDto());
         modelAttribute.addObject("search", search.orElse(null));
@@ -85,54 +83,56 @@ public class ProductController {
 
     @GetMapping("/best-seller")
     public ModelAndView showBestSellerPage(@RequestParam("search") Optional<String> s, Pageable pageable) {
-        ModelAndView modelAndView = new ModelAndView("product/list");
-        Page<Product> products = s.isPresent() ? search(s, pageable) : getPage(pageable);
-        modelAndView.addObject("keyword", s.orElse(null));
+        ModelAndView modelAndView = new ModelAndView("product/best-seller");
+        List<ProductListDto> products = productService.getAll();
         modelAndView.addObject("products", products);
         return modelAndView;
     }
 
-    @GetMapping("/create-product")
+    @GetMapping("/product/create-product")
     public ModelAndView showCreatePage() {
         ModelAndView modelAndView = new ModelAndView("product/create");
         modelAndView.addObject("product", new ProductAddDto());
         return modelAndView;
     }
 
-    @PostMapping("/create-product")
-    public ModelAndView saveProduct(@ModelAttribute("product") ProductAddDto product) throws IOException {
-        boolean isSaveSuccessfully = productService.save(product);
-        ModelAndView modelAndView = new ModelAndView("product/create");
-        modelAndView.addObject("product", new ProductAddDto());
-        if (isSaveSuccessfully) {
-            modelAndView.addObject("message", "New Product have been created successfully");
-        }
-        return modelAndView;
-
-    }
-
-    @GetMapping("/delete-product/{id}")
-    public ModelAndView showDeleteForm(@PathVariable Long id) throws Exception {
-        Optional<Product> productOptional = productService.findById(id);
-        if (productOptional.isPresent()) {
-            ModelAndView modelAndView = new ModelAndView("product/delete");
-            modelAndView.addObject("product", productOptional.get());
-            return modelAndView;
-
+    @PostMapping("/product/create-product")
+    public ModelAndView saveProduct(@Validated @ModelAttribute("product") ProductAddDto product, BindingResult bindingResult) throws IOException {
+        if (bindingResult.hasFieldErrors()) {
+            return new ModelAndView("product/create");
         } else {
-            return new ModelAndView("component/error-404");
+            boolean isSaveSuccessfully = productService.save(product);
+            ModelAndView modelAndView = new ModelAndView("product/create");
+            modelAndView.addObject("product", new ProductAddDto());
+            if (isSaveSuccessfully) {
+                modelAndView.addObject("message", "New Product have been created successfully");
+            }
+            return modelAndView;
         }
     }
 
-    @PostMapping("/delete-product")
-    public String deleteProduct(@ModelAttribute("product") Product product) {
-        productService.softDelete(product.getId());
+//    @GetMapping("/product/delete-product/{id}")
+//    public ModelAndView showDeleteForm(@PathVariable Long id) throws Exception {
+//        Optional<Product> productOptional = productService.findById(id);
+//        if (productOptional.isPresent()) {
+//            ModelAndView modelAndView = new ModelAndView("product/delete");
+//            modelAndView.addObject("product", productOptional.get());
+//            return modelAndView;
+//
+//        } else {
+//            return new ModelAndView("component/error-404");
+//        }
+//    }
+
+    @GetMapping("/product/delete-product/{id}")
+    public String deleteProduct(@PathVariable Long id) {
+        productService.softDelete(id);
         return "redirect:/";
     }
 
-    @GetMapping("/edit-product/{id}")
+    @GetMapping("/product/edit-product/{id}")
     public ModelAndView showEditForm(@PathVariable Long id) throws Exception {
-        Optional<ProductListDto> product = productService.findProductDtoById(id);
+        Optional<ProductAddDto> product = productService.findProductAddDtoById(id);
         if (product.isPresent()) {
             ModelAndView modelAndView = new ModelAndView("product/edit");
             modelAndView.addObject("product", product.get());
@@ -142,12 +142,14 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/edit-product")
-    public ModelAndView updateCustomer(@ModelAttribute("product") Product product) {
-        productService.save(product);
+    @PostMapping("/product/edit-product")
+    public ModelAndView updateCustomer(@ModelAttribute("product") ProductAddDto product) throws IOException {
+        boolean isEditSuccessfully = productService.save(product);
         ModelAndView modelAndView = new ModelAndView("product/edit");
         modelAndView.addObject("product", product);
-        modelAndView.addObject("message", "Product updated successfully");
+        if (isEditSuccessfully) {
+            modelAndView.addObject("message", "Product updated successfully");
+        } else modelAndView.addObject("message", "Edited product fail");
         return modelAndView;
     }
 

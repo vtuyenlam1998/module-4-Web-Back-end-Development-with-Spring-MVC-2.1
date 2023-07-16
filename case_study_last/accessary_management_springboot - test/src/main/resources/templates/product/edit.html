@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/layout::head">
+<head th:replace="/product/home::head">
     <meta charset="UTF-8">
     <title>Edit product</title>
 </head>
 <body>
-<header th:replace="/layout::header"></header>
+<header th:replace="/product/home::header"></header>
 <h1>Edit product</h1>
 <p>
-    <a th:href="@{/}">Product list</a>
+    <a th:href="@{/home}">Product list</a>
 </p>
 <th:block th:if="${message}">
     <p th:text="${message}"></p>
 </th:block>
-<form th:action="@{/edit-product}" th:object="${product}" method="post" enctype="multipart/form-data">
+<form th:action="@{/product/edit-product}" th:object="${product}" method="post" enctype="multipart/form-data">
     <label>
         <input th:type="hidden" name="id" th:field="*{id}">
     </label>
@@ -33,8 +33,9 @@
             <td><label for="category">Category</label></td>
             <td>
                 <label>
-                    <select th:field="*{category.name}">
-                        <option th:each="category:${categories}" th:value="${category.id}" th:text="${category.name}" id="category"></option>
+                    <select th:field="*{category}">
+                        <option th:each="category:${categories}" th:value="${category.id}" th:text="${category.name}"
+                         id="category"></option>
                     </select>
                 </label>
             </td>
@@ -48,7 +49,7 @@
 
         <tr>
             <td><label for="detail">Detail</label></td>
-            <td><textarea rows="4" cols="50" id="detail" placeholder="detail" th:field="*{detail}"></textarea></td>
+            <td><textarea rows="4" cols="50" id="detail" placeholder="detail" th:field="*{detail}" th:text="${product.detail}"></textarea></td>
         </tr>
 
 <!--        <tr>-->
@@ -79,28 +80,7 @@
     function getFile() {
         //https://stackoverflow.com/questions/1696877/how-to-set-a-value-to-a-file-input-in-html
         // Get a reference to our file input
-        const fileInput = document.querySelector("#musicFile");
-        const blob = document.querySelector("#blob").value;
-        const fileName = document.querySelector("#fileName").value;
-        const contentType = document.querySelector("#contentType").value;
-        // Create a new File object
-        const myFile = new File(
-            [blob],
-            fileName,
-            {
-                type: contentType,
-                lastModified: new Date(),
-            }
-        );
-        // Now let's create a DataTransfer to get a FileList
-        const dataTransfer = new DataTransfer();
-        dataTransfer.items.add(myFile);
-        fileInput.files = dataTransfer.files;
-    }
-    document.onload = getFile(); function getFile() {
-        //https://stackoverflow.com/questions/1696877/how-to-set-a-value-to-a-file-input-in-html
-        // Get a reference to our file input
-        const fileInput = document.querySelector("#musicFile");
+        const fileInput = document.querySelector("#image");
         const blob = document.querySelector("#blob").value;
         const fileName = document.querySelector("#fileName").value;
         const contentType = document.querySelector("#contentType").value;
@@ -120,5 +100,5 @@
     }
     document.onload = getFile();
 </script>
-<footer th:replace="/layout::foot"></footer>
+<footer th:replace="/product/home::footer"></footer>
 </html>

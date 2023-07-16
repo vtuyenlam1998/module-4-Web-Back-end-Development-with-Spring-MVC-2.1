@@ -3,9 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <title>Error</title>
+    <style>
+        body {
+            background: #22a7f0;
+            font-family: "Roboto", sans-serif;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .cloud-container {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+        .cloud-container > svg {
+            display: block;
+            position: absolute;
+            width: 200px;
+            left: 0px;
+            fill: #fff;
+            opacity: 0.2;
+            transform: translateX(-100%);
+            -webkit-animation: cloud-passover linear infinite;
+            animation: cloud-passover linear infinite;
+        }
+        .cloud-container > svg:nth-child(1) {
+            top: 20px;
+            -webkit-animation-delay: 2s;
+            animation-delay: 2s;
+            -webkit-animation-duration: 12s;
+            animation-duration: 12s;
+        }
+        .cloud-container > svg:nth-child(2) {
+            top: 160px;
+            -webkit-animation-delay: 4s;
+            animation-delay: 4s;
+            -webkit-animation-duration: 13s;
+            animation-duration: 13s;
+        }
+        .cloud-container > svg:nth-child(3) {
+            top: 280px;
+            -webkit-animation-delay: 6s;
+            animation-delay: 6s;
+            -webkit-animation-duration: 11s;
+            animation-duration: 11s;
+        }
+
+        @-webkit-keyframes cloud-passover {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(100vw);
+            }
+        }
+
+        @keyframes cloud-passover {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(100vw);
+            }
+        }
+        .container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content {
+            color: #fff;
+            width: 600px;
+        }
+
+        .heading {
+            font-size: 100px;
+            font-weight: 300;
+        }
+
+        .sorry {
+            margin-top: 20px;
+            font-size: 35px;
+            font-weight: 300;
+            line-height: 1.5;
+        }
+    </style>
 </head>
 <body>
-<h1>ERROR</h1>
+<div class="cloud-container">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="31 111 450 290">
+        <text x="120" y="320" font-size="100">Error</text>
+        <path d="M399.3 232.8c0-1.2.2-2.4.2-3.6 0-64.3-52.8-117.2-116.8-117.2-46.1 0-85.8 27.9-104.4 67-8.1-4.1-17.1-6.4-26.8-6.4-29.6 0-54.1 23.7-58.9 52C57.4 236.8 32 268.8 32 308.4c0 49.8 40.1 91.6 89.6 91.6H398c45 0 82-38.9 82-84.3 0-45.6-35.4-82.8-80.7-82.9zm-1.8 150.8l-3.2.4H122.4c-40.9 0-74.2-34.9-74.2-76.1 0-31.9 20.2-58.4 50.2-68.8l8.4-3 1.5-8.8c3.6-21.6 22.1-39.3 43.9-39.3 6.9 0 13.7 1.6 19.9 4.8l13.5 6.8 6.5-13.7c16.6-34.9 52.1-58.2 90.4-58.2 55.3 0 100.9 44.1 100.9 99.7 0 13.3-.2 20.3-.2 20.3l15.2.1c36.7.5 65.6 30.5 65.6 67.4 0 36.9-29.8 68.2-66.5 68.4z" />
+    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="31 111 450 290">
+        <text x="150" y="320" font-size="100">500</text>
+        <path d="M399.3 232.8c0-1.2.2-2.4.2-3.6 0-64.3-52.8-117.2-116.8-117.2-46.1 0-85.8 27.9-104.4 67-8.1-4.1-17.1-6.4-26.8-6.4-29.6 0-54.1 23.7-58.9 52C57.4 236.8 32 268.8 32 308.4c0 49.8 40.1 91.6 89.6 91.6H398c45 0 82-38.9 82-84.3 0-45.6-35.4-82.8-80.7-82.9zm-1.8 150.8l-3.2.4H122.4c-40.9 0-74.2-34.9-74.2-76.1 0-31.9 20.2-58.4 50.2-68.8l8.4-3 1.5-8.8c3.6-21.6 22.1-39.3 43.9-39.3 6.9 0 13.7 1.6 19.9 4.8l13.5 6.8 6.5-13.7c16.6-34.9 52.1-58.2 90.4-58.2 55.3 0 100.9 44.1 100.9 99.7 0 13.3-.2 20.3-.2 20.3l15.2.1c36.7.5 65.6 30.5 65.6 67.4 0 36.9-29.8 68.2-66.5 68.4z" />
+    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="31 111 450 290">
+        <text x="200" y="320" font-size="100">:(</text>
+        <path d="M399.3 232.8c0-1.2.2-2.4.2-3.6 0-64.3-52.8-117.2-116.8-117.2-46.1 0-85.8 27.9-104.4 67-8.1-4.1-17.1-6.4-26.8-6.4-29.6 0-54.1 23.7-58.9 52C57.4 236.8 32 268.8 32 308.4c0 49.8 40.1 91.6 89.6 91.6H398c45 0 82-38.9 82-84.3 0-45.6-35.4-82.8-80.7-82.9zm-1.8 150.8l-3.2.4H122.4c-40.9 0-74.2-34.9-74.2-76.1 0-31.9 20.2-58.4 50.2-68.8l8.4-3 1.5-8.8c3.6-21.6 22.1-39.3 43.9-39.3 6.9 0 13.7 1.6 19.9 4.8l13.5 6.8 6.5-13.7c16.6-34.9 52.1-58.2 90.4-58.2 55.3 0 100.9 44.1 100.9 99.7 0 13.3-.2 20.3-.2 20.3l15.2.1c36.7.5 65.6 30.5 65.6 67.4 0 36.9-29.8 68.2-66.5 68.4z" />
+    </svg>
+</div>
+<!-- div div div div div <3 -->
+<div class="container">
+    <div class="content">
+        <div class="heading">System Error</div>
+        <div class="sorry">
+            There&apos;s a good chance what you were working on is gone forever. Sorry.
+        </div>
+    </div>
+</div><div class="cloud-container">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="31 111 450 290">
+        <text x="120" y="320" font-size="100">Error</text>
+        <path d="M399.3 232.8c0-1.2.2-2.4.2-3.6 0-64.3-52.8-117.2-116.8-117.2-46.1 0-85.8 27.9-104.4 67-8.1-4.1-17.1-6.4-26.8-6.4-29.6 0-54.1 23.7-58.9 52C57.4 236.8 32 268.8 32 308.4c0 49.8 40.1 91.6 89.6 91.6H398c45 0 82-38.9 82-84.3 0-45.6-35.4-82.8-80.7-82.9zm-1.8 150.8l-3.2.4H122.4c-40.9 0-74.2-34.9-74.2-76.1 0-31.9 20.2-58.4 50.2-68.8l8.4-3 1.5-8.8c3.6-21.6 22.1-39.3 43.9-39.3 6.9 0 13.7 1.6 19.9 4.8l13.5 6.8 6.5-13.7c16.6-34.9 52.1-58.2 90.4-58.2 55.3 0 100.9 44.1 100.9 99.7 0 13.3-.2 20.3-.2 20.3l15.2.1c36.7.5 65.6 30.5 65.6 67.4 0 36.9-29.8 68.2-66.5 68.4z" />
+    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="31 111 450 290">
+        <text x="150" y="320" font-size="100">500</text>
+        <path d="M399.3 232.8c0-1.2.2-2.4.2-3.6 0-64.3-52.8-117.2-116.8-117.2-46.1 0-85.8 27.9-104.4 67-8.1-4.1-17.1-6.4-26.8-6.4-29.6 0-54.1 23.7-58.9 52C57.4 236.8 32 268.8 32 308.4c0 49.8 40.1 91.6 89.6 91.6H398c45 0 82-38.9 82-84.3 0-45.6-35.4-82.8-80.7-82.9zm-1.8 150.8l-3.2.4H122.4c-40.9 0-74.2-34.9-74.2-76.1 0-31.9 20.2-58.4 50.2-68.8l8.4-3 1.5-8.8c3.6-21.6 22.1-39.3 43.9-39.3 6.9 0 13.7 1.6 19.9 4.8l13.5 6.8 6.5-13.7c16.6-34.9 52.1-58.2 90.4-58.2 55.3 0 100.9 44.1 100.9 99.7 0 13.3-.2 20.3-.2 20.3l15.2.1c36.7.5 65.6 30.5 65.6 67.4 0 36.9-29.8 68.2-66.5 68.4z" />
+    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="31 111 450 290">
+        <text x="200" y="320" font-size="100">:(</text>
+        <path d="M399.3 232.8c0-1.2.2-2.4.2-3.6 0-64.3-52.8-117.2-116.8-117.2-46.1 0-85.8 27.9-104.4 67-8.1-4.1-17.1-6.4-26.8-6.4-29.6 0-54.1 23.7-58.9 52C57.4 236.8 32 268.8 32 308.4c0 49.8 40.1 91.6 89.6 91.6H398c45 0 82-38.9 82-84.3 0-45.6-35.4-82.8-80.7-82.9zm-1.8 150.8l-3.2.4H122.4c-40.9 0-74.2-34.9-74.2-76.1 0-31.9 20.2-58.4 50.2-68.8l8.4-3 1.5-8.8c3.6-21.6 22.1-39.3 43.9-39.3 6.9 0 13.7 1.6 19.9 4.8l13.5 6.8 6.5-13.7c16.6-34.9 52.1-58.2 90.4-58.2 55.3 0 100.9 44.1 100.9 99.7 0 13.3-.2 20.3-.2 20.3l15.2.1c36.7.5 65.6 30.5 65.6 67.4 0 36.9-29.8 68.2-66.5 68.4z" />
+    </svg>
+</div>
+<!-- div div div div div <3 -->
+<div class="container">
+    <div class="content">
+        <div class="heading">System Error</div>
+        <div class="sorry">
+            There&apos;s a good chance what you were working on is gone forever. Sorry.
+        </div>
+    </div>
+</div>
 <a href="/">Go Home</a>
 </body>
 </html>

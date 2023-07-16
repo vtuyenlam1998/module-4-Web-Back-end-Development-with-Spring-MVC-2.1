@@ -9,7 +9,7 @@ public interface IGeneralService<T> {
 
     Optional<T> findById(Long id) throws Exception;
 
-    Product save(T t);
+    void save(T t);
 
     void softDelete(Long id);
 }

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="/city/list::head">
+  <meta charset="UTF-8">
+  <title>Chỉnh sửa thành phố</title>
+</head>
+<body>
+<div class="container col-md-10 mt-5">
+  <div class="d-flex col-md-10 justify-content-between">
+    <div class="d-flex"><h1>Chỉnh sửa thành phố <span th:text="${city.name}"></span></h1></div>
+  </div>
+  <span th:text="${message}" th:if="${message}"style="color: green"></span>
+  <form th:object="${city}" th:action="@{/edit-city}" method="post">
+    <table>
+      <tr>
+        <input type="hidden" th:field="*{id}">
+        <td><label for="name">Tên</label></td>
+        <td><input id="name" type="text" th:field="*{name}" required></td>
+        <td><span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red">Username Error</span></td>
+      </tr>
+      <tr>
+        <td><label for="country">Quốc gia</label></td>
+        <td><select th:field="*{country}" required>
+          <option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.name}" id="country"></option>
+        </select></td>
+      </tr>
+      <tr>
+        <td><label for="area">Diện tích</label></td>
+        <td><input type="number" id="area" th:field="*{area}" required></td>
+        <td><span th:if="${#fields.hasErrors('area')}" th:errors="*{area}" style="color: red">Username Error</span></td>
+      </tr>
+      <tr>
+        <td><label for="population">Dân số</label></td>
+        <td><input type="number" id="population" th:field="*{population}" required></td>
+        <td><span th:if="${#fields.hasErrors('population')}" th:errors="*{population}" style="color: red">Username Error</span></td>
+      </tr>
+      <tr>
+        <td><label for="gdp">GDP</label></td>
+        <td><input type="number" id="gdp" th:field="*{GDP}" required></td>
+        <td><span th:if="${#fields.hasErrors('GDP')}" th:errors="*{GDP}" style="color: red">Username Error</span></td>
+      </tr>
+      <tr>
+        <td><label for="detail">Giới thiệu</label></td>
+        <td><textarea cols="50" rows="5" id="detail" th:field="*{detail}" required></textarea><br></td>
+        <td><span th:if="${#fields.hasErrors('detail')}" th:errors="*{detail}" style="color: red">Username Error</span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><button>Cập nhật</button>
+          <a href="/list"><button type="button">Thoát</button></a>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <title>List of city</title>
+    <!-- Font Awesome -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css"
+            rel="stylesheet"
+    />
+    <!-- MDB -->
+    <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js"
+    ></script><!-- MDB -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+<div class=" container col-md-10 justify-content-around">
+    <div class="d-flex col-md-8"><h1>Danh sách thành phố</h1></div>
+    <div class="d-flex col-md-4 float-right">
+        <a th:href="@{/create-city}">
+            <button>Thêm thành phố</button>
+        </a>
+    </div>
+    <span th:text="${message}" th:if="${message}"style="color: green"></span>
+    <div class="d-flex">
+        <table class="table table-striped">
+            <tr>
+                <th>#</th>
+                <th>Thành phố</th>
+                <th>Quốc gia</th>
+                <th></th>
+            </tr>
+            <tr th:each="city : ${cities}">
+                <td th:text="${city.id}"></td>
+                <td><a th:href="@{/detail/__${city.id}__}" th:text="${city.name}"></a></td>
+                <td th:text="${city.country.name}"></td>
+                <td><a th:href="@{edit-city/{id}(id=${city.id})}">Chỉnh sửa</a> | <a th:href="@{delete-city/__${city.id}__}">Xóa</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

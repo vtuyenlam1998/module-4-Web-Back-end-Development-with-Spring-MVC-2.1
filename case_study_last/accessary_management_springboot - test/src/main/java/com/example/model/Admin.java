@@ -1,10 +1,12 @@
 package com.example.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 
 @Entity
-@Table(name = "admins")
+@Table(name = "admins", uniqueConstraints = {
+        @UniqueConstraint(name = "admins_uk",
+                columnNames = {"email"})})
 public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

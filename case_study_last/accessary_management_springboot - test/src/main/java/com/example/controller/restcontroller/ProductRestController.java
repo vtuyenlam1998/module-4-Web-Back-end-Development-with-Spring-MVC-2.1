@@ -29,7 +29,7 @@ public class ProductRestController {
 
     @PostMapping
     public ResponseEntity<?> createNewProduct(@RequestBody Product product) {
-        return new ResponseEntity<>(productService.save(product), HttpStatus.CREATED);
+        return new ResponseEntity<>(productService.saveProduct(product), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -52,12 +52,12 @@ public class ProductRestController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id,@RequestBody Product product) throws Exception {
+    public ResponseEntity<?> updateProduct(@PathVariable Long id,@RequestBody Product product) throws Exception {
         Optional<Product> productOptional = productService.findById(id);
         if (productOptional.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         product.setId(productOptional.get().getId());
-        return new ResponseEntity<>(productService.save(product), HttpStatus.OK);
+        return new ResponseEntity<>(productService.saveProduct(product), HttpStatus.OK);
     }
 }

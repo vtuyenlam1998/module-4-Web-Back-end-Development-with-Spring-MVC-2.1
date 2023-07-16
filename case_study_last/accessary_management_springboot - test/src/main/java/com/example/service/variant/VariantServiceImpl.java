@@ -24,9 +24,8 @@ public class VariantServiceImpl implements VariantService {
     }
 
     @Override
-    public Product save(Variant variant) {
+    public void save(Variant variant) {
         variantRepository.save(variant);
-        return null;
     }
 
     @Override

@@ -24,7 +24,68 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js"
     ></script><!-- MDB -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+        /*Đăng xuất*/
+        .cta {
+            position: relative;
+            margin: auto;
+            padding: 12px 18px;
+            transition: all 0.2s ease;
+            border: none;
+            background: none;
+        }
+
+        .cta:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            border-radius: 50px;
+            background: #b1dae7;
+            width: 45px;
+            height: 45px;
+            transition: all 0.3s ease;
+        }
+
+        .cta span {
+            position: relative;
+            font-family: "Ubuntu", sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: #234567;
+        }
+
+        .cta svg {
+            position: relative;
+            top: 0;
+            margin-left: 10px;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke: #234567;
+            stroke-width: 2;
+            transform: translateX(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .cta:hover:before {
+            width: 100%;
+            background: #b1dae7;
+        }
+
+        .cta:hover svg {
+            transform: translateX(0);
+        }
+
+        .cta:active {
+            transform: scale(0.95);
+        }
+
+        /* */
+
         .dropdown-hover:hover > .dropdown-menu {
             display: inline-block;
         }
@@ -212,7 +273,7 @@
                 <!-- Left links -->
                 <ul class="navbar-nav me-auto ps-lg-0" style="padding-left: 0.15rem">
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">Regular link</a>
+                        <a class="nav-link text-white" href="/home">Home</a>
                     </li>
                     <!-- Navbar dropdown -->
                     <li class="nav-item dropdown dropdown-hover position-static">
@@ -230,30 +291,26 @@
                                     <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
                                         <div class="list-group list-group-flush">
                                             <p class="mb-0 list-group-item text-uppercase font-weight-bold">
-                                                Lorem ipsum
+                                                Product
                                             </p>
-                                            <a href="" class="list-group-item list-group-item-action">Dolor sit</a>
-                                            <a href="" class="list-group-item list-group-item-action">Amet
-                                                consectetur</a>
-                                            <a href="" class="list-group-item list-group-item-action">Cras justo
-                                                odio</a>
-                                            <a href="" class="list-group-item list-group-item-action">Adipisicing
-                                                elit</a>
+                                            <a href="/user/home" class="list-group-item list-group-item-action">Main menu</a>
+                                            <a href="/best-seller" class="list-group-item list-group-item-action">Best seller</a>
+                                            <a href="" class="list-group-item list-group-item-action">Category</a>
+                                            <a href="" class="list-group-item list-group-item-action">Trend product</a>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
                                         <div class="list-group list-group-flush">
                                             <p class="mb-0 list-group-item text-uppercase font-weight-bold">
-                                                Lorem ipsum
+                                                User
                                             </p>
-                                            <a href="" class="list-group-item list-group-item-action">Perspiciatis
-                                                quo</a>
-                                            <a href="" class="list-group-item list-group-item-action">Cras justo
-                                                odio</a>
-                                            <a href="" class="list-group-item list-group-item-action">Laudantium
-                                                maiores</a>
-                                            <a href="" class="list-group-item list-group-item-action">Provident
-                                                dolor</a>
+                                            <a href="" class="list-group-item list-group-item-action">User information
+                                            </a>
+                                            <a href="" class="list-group-item list-group-item-action">History
+                                                purchase</a>
+                                            <a href="" class="list-group-item list-group-item-action">Discount
+                                                coupon</a>
+                                            <a href="" class="list-group-item list-group-item-action">Package status</a>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-3 mb-3 mb-md-0">
@@ -334,21 +391,22 @@
         </div>
         <!-- Container wrapper -->
 
-        <div class="d-flex col-md-1 justify-content-end">
-            <!-- search -->
-            <form class="container d-flex w-auto">
-                <input placeholder="Type to search..." required="" class="input" name="text" type="text">
-                <div class="icon">
-                    <svg viewBox="0 0 512 512" class="ionicon" xmlns="http://www.w3.org/2000/svg">
-                        <title>Search</title>
-                        <path stroke-width="32" stroke-miterlimit="10" stroke="currentColor" fill="none"
-                              d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"></path>
-                        <path d="M338.29 338.29L448 448" stroke-width="32" stroke-miterlimit="10" stroke-linecap="round"
-                              stroke="currentColor" fill="none"></path>
-                    </svg>
-                </div>
-            </form>
-
+        <div class="d-flex col-md-6 justify-content-end">
+            <div class="float-end">
+                <!-- search -->
+                <form class="container d-flex w-auto">
+                    <input placeholder="Type to search..." required="" class="input" name="text" type="text">
+                    <div class="icon">
+                        <svg viewBox="0 0 512 512" class="ionicon" xmlns="http://www.w3.org/2000/svg">
+                            <title>Search</title>
+                            <path stroke-width="32" stroke-miterlimit="10" stroke="currentColor" fill="none"
+                                  d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"></path>
+                            <path d="M338.29 338.29L448 448" stroke-width="32" stroke-miterlimit="10" stroke-linecap="round"
+                                  stroke="currentColor" fill="none"></path>
+                        </svg>
+                    </div>
+                </form>
+            </div>
             <!-- ngôn ngữ -->
             <ul class="navbar-nav">
                 <!-- Icon dropdown -->
@@ -434,9 +492,8 @@
                 </li>
                 <!-- Notification dropdown -->
             </ul>
-
             <!-- đăng nhập -->
-            <div class="dropdown">
+            <div class="dropdown me-3">
                 <button class="btn btn-primary dropdown-toggle" type="button" data-mdb-toggle="dropdown"
                         aria-expanded="false">
                     Đăng nhập
@@ -480,7 +537,18 @@
                     <a class="dropdown-item" href="#">Forgot password?</a>
                 </div>
             </div>
-
+            <!--Đăng xuất-->
+            <div class="d-flex">
+                <a th:href="@{/logout}" >
+                    <button class="cta">
+                        <span>Log out</span>
+                        <svg viewBox="0 0 13 10" height="10px" width="15px">
+                            <path d="M1,5 L11,5"></path>
+                            <polyline points="8 1 12 5 8 9"></polyline>
+                        </svg>
+                    </button>
+                </a>
+            </div>
         </div>
     </nav>
 </div>
@@ -869,8 +937,8 @@
 
     <!-- Copyright -->
     <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.025);">
-        © 2021 Copyright:
-        <a class="text-reset fw-bold" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+        © 2023 Copyright:
+        <a class="text-reset fw-bold" href="https://mdbootstrap.com/">PhunganhAccessary.com</a>
     </div>
     <!-- Copyright -->
 </footer>

@@ -5,17 +5,21 @@ import com.example.payload.product.ProductAddDto;
 import com.example.payload.product.ProductListDto;
 import com.example.repository.ProductRepository;
 import com.example.repository.VariantRepository;
+import org.apache.commons.io.IOUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -55,17 +59,24 @@ public class ProductServiceImpl implements ProductService {
         String fileName = multipartFile.getOriginalFilename();
         assert fileName != null;
         FileCopyUtils.copy(product.getImage().getBytes(), new File(fileUpload + fileName));
-        Product product1 = new Product(product.getDetail(), product.getName(), fileName, product.getCategory());
+        Product product1 = new Product(product.getId(),product.getDetail(), product.getName(), fileName, product.getCategory());
         productRepository.save(product1);
         return true;
     }
 
     @Override
-    public Product save(Product product) {
+    public void save(Product product) {
+        product.setIsActive(true);
+        productRepository.save(product);
+    }
+
+    @Override
+    public Product saveProduct(Product product) {
         product.setIsActive(true);
         productRepository.save(product);
         return product;
     }
+
 
     @Override
     public List<Product> save(List<Product> products) {
@@ -113,13 +124,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> search(String keyword, Pageable pageInfo) {
         return productRepository
-                .findAllByNameContainsOrCategoryNameContains(keyword, keyword, pageInfo);
+                .findAllByIsActiveTrueAndNameContainsOrCategoryNameContains(keyword, keyword, pageInfo);
     }
 
     @Override
     public Page<ProductListDto> searchProductDto(String keyword, Pageable pageInfo) {
         Page<Product> products = productRepository
-                .findAllByNameContainsOrCategoryNameContains(keyword, keyword, pageInfo);
+                .findAllByIsActiveTrueAndNameContainsOrCategoryNameContains(keyword, keyword, pageInfo);
         return products.map(product -> modelMapper.map(product, ProductListDto.class));
     }
 
@@ -138,9 +149,36 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Optional<ProductAddDto> findProductAddDtoById(Long id) throws Exception {
+        Optional<Product> product = findById(id);
+        if (product == null) {
+            return null;
+        } else {
+            ProductAddDto productAddDto = new ProductAddDto();
+            productAddDto.setId(product.get().getId());
+            productAddDto.setName(product.get().getName());
+            productAddDto.setCategory(product.get().getCategory());
+            productAddDto.setDetail(product.get().getDetail());
+            byte[] content = IOUtils.toByteArray(Files.newInputStream(Paths.get(fileUpload + product.get().getImage())));
+            String filename = product.get().getImage();
+            String contentType = "image/png"; // Assume the file is in PNG format by default
+
+            if (filename.toLowerCase().endsWith(".jpg") || filename.toLowerCase().endsWith(".jpeg")) {
+                contentType = "image/jpeg"; // Change the content type to JPEG if the file has a .jpg or .jpeg extension
+            }
+            MultipartFile multipartFile = new MockMultipartFile(product.get().getImage(),product.get().getImage(),contentType,content);
+
+            productAddDto.setImage(multipartFile);
+            return Optional.of(productAddDto);
+        }
+    }
+
+    @Override
     public Page<ProductListDto> findAllProductDto(Pageable pageInfo) {
         //
-        Page<Product> products = productRepository.findAll(pageInfo);
+        Page<Product> products = productRepository.findAllByIsActiveTrue(pageInfo);
         return products.map(product -> modelMapper.map(product, ProductListDto.class));
     }
+
+
 }

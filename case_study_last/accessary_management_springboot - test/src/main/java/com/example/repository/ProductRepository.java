@@ -1,7 +1,7 @@
 package com.example.repository;
 
 import com.example.model.Product;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,5 +30,8 @@ public interface ProductRepository extends PagingAndSortingRepository<Product,Lo
 
     Iterable<Product> findAllByNameContainsOrCategoryContains(String name, String category);
 
-    Page<Product> findAllByNameContainsOrCategoryNameContains(String name, String category, Pageable pageInfo);
+    @Query("SELECT p FROM Product p WHERE p.isActive = true AND (LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')) OR LOWER(p.category.name) LIKE LOWER(CONCAT('%', :category, '%')))")
+    Page<Product> findAllByIsActiveTrueAndNameContainsOrCategoryNameContains(String name, String category, Pageable pageInfo);
+
+    Page<Product> findAllByIsActiveTrue(Pageable pageInfo);
 }

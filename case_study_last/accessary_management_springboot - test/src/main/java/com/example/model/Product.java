@@ -2,8 +2,8 @@ package com.example.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,7 +38,7 @@ public class Product {
     @Column(columnDefinition = "text")
     private String image;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id",nullable = false,referencedColumnName = "id")
     @JsonBackReference
     private Category category;
@@ -53,6 +53,15 @@ public class Product {
     }
 
     public Product(String detail, String name, String image, Category category) {
+        this.detail = detail;
+        this.name = name;
+        this.isActive = true;
+        this.image = image;
+        this.category = category;
+    }
+
+    public Product(Long id, String detail, String name, String image, Category category) {
+        this.id = id;
         this.detail = detail;
         this.name = name;
         this.isActive = true;

@@ -30,9 +30,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Product save(Admin admin) {
+    public void save(Admin admin) {
         adminRepository.save(admin);
-        return null;
     }
 
     @Override
